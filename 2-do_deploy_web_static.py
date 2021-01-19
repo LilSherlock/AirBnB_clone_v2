@@ -17,28 +17,9 @@ def do_pack():
         return None
 
 def do_deploy(archive_path):
-    """Deploys archive to web servers"""
-    if not os.path.exists(archive_path) and not os.path.isfile(archive_path):
+    """ deploy the server """
+
+    if os.path.exists(archive_path):
+        
+    else:
         return False
-
-    temp = archive_path.split('/')
-    temp0 = temp[1].split(".")
-    f = temp0[0]
-
-    try:
-        put(archive_path, '/tmp')
-        run("sudo mkdir -p /data/web_static/releases/" + f + "/")
-        run("sudo tar -xzf /tmp/" + f + ".tgz" +
-            " -C /data/web_static/releases/" + f + "/")
-        run("sudo rm /tmp/" + f + ".tgz")
-        run("sudo mv /data/web_static/releases/" + f +
-            "/web_static/* /data/web_static/releases/" + f + "/")
-        run("sudo rm -rf /data/web_static/releases/" + f + "/web_static")
-        run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -s /data/web_static/releases/" + f +
-            "/ /data/web_static/current")
-        return True
-    except:
-        return False
-
-    return True

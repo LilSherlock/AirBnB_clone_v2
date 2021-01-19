@@ -52,21 +52,6 @@ class DBStorage:
             d[k] = item
         return d
 
-        """ dict_ = {}
-
-        if cls:
-            query = self.__session.query(cls).all()
-            for obj in query:
-                delattr(obj, '_sa_instance_state')
-                dict_[obj.__class__.__name__ + '.' + obj.id] = obj
-        else:
-            for key, value in classes.items():
-                query = self.__session.query(key).all()
-                for obj in query:
-                    delattr(obj, '_sa_instance_state')
-                    dict_[obj.__class__.__name__ + '.' + obj.id] = obj
-        return dict_ """
-
     def new(self, obj):
         """ add the object to the current database session """
         self.__session.add(obj)

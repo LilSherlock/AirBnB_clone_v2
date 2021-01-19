@@ -25,13 +25,6 @@ class FileStorage:
         """Adds new object to storage dictionary"""
         self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
 
-    """ def save(self):
-        a_dict = {}
-        for key in self.__objects:
-            a_dict[key] = self.__objects[key].to_dict()
-        with open(self.__file_path, mode="w",
-                  encoding="utf-8") as a_file:
-            json.dump(a_dict, a_file) """
 
     def save(self):
         with open(FileStorage.__file_path, 'w') as f:
