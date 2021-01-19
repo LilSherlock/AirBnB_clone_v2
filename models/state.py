@@ -1,43 +1,40 @@
 #!/usr/bin/python3
-""" State Module for HBNB project """
-from models.base_model import BaseModel
-from models.base_model import Base
-from models.city import City
-from sqlalchemy import Column
-from sqlalchemy import String
-from sqlalchemy import ForeignKey
+"""
+    Implementation of the State class
+"""
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
+from models.city import City
 from os import getenv
 import models
 
 
+storage_type = getenv("HBNB_TYPE_STORAGE")
+
+
 class State(BaseModel, Base):
-    """ State class """
+    '''
+        Implementation for the State.
+    '''
     __tablename__ = 'states'
-
-    if models.storage_type == 'db':
-        name = Column(
-            String(128),
-            nullable=False
-        )
-        cities = relationship('City', backref='state', cascade='all, delete')
+    if storage_type == 'db':
+        name = Column(String(128), nullable=False)
+        cities = relationship("City", backref="state",
+                              cascade="all, delete-orphan")
     else:
-        name = ''
+        name = ""
 
-    def __init__(self, *args, **kwargs):
-        """initializes state"""
-        print(class_ for class_ in State.__dict__)
-        super().__init__(*args, **kwargs)
-
-    if models.storage_type != 'db':
+    if storage_type != 'db':
         @property
         def cities(self):
-            """return the list of City objects from storage
-            linked to the current State """
-            city_list = []
-            cities = models.storage.all(City)
-
-            for city in cities.values():
-                if city.state_id == self.id:
-                    city_list.append(city)
-            return city_list
+            """
+            get list of City instances with state_id
+            equals to the current State.id
+            """
+            list_cities = []
+            all_cities = models.storage.all(City)
+            for key, city_obj in all_cities.items():
+                if city_obj.state_id == self.id:
+                    list_cities.append(city_obj)
+            return list_cities
