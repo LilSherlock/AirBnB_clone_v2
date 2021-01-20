@@ -4,6 +4,7 @@ initialize the models package
 """
 
 from os import getenv
+from models.engine import *
 
 
 storage_t = getenv("HBNB_TYPE_STORAGE")
